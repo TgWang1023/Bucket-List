@@ -7,31 +7,36 @@
 //
 
 import UIKit
+import CoreData
 
 class BucketListViewController: UITableViewController, AddItemTableViewControllerDelegate {
-    var items: [String] = ["Something", "sOmething", "soMething", "somEthing"]
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("Loaded")
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
-    }
+    var items: [BucketListItem] = []
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let saveContext = (UIApplication.shared.delegate as! AppDelegate).saveContext
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "segueTo", sender: sender)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        fetchAllItems()
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListItemCell", for: indexPath)
-        cell.textLabel?.text = items[indexPath.row]
+        cell.textLabel?.text = items[indexPath.row].text!
         return cell
     }
     
@@ -40,6 +45,9 @@ class BucketListViewController: UITableViewController, AddItemTableViewControlle
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let item = items[indexPath.row]
+        context.delete(item)
+        saveContext()
         items.remove(at: indexPath.row)
         tableView.reloadData()
     }
@@ -55,8 +63,18 @@ class BucketListViewController: UITableViewController, AddItemTableViewControlle
             addItemTableController.delegate = self
             let indexPath = sender as! NSIndexPath
             let item = items[indexPath.row]
-            addItemTableController.item = item
+            addItemTableController.item = item.text!
             addItemTableController.indexPath = indexPath
+        }
+    }
+    
+    func fetchAllItems() {
+        let request:NSFetchRequest<BucketListItem> = BucketListItem.fetchRequest()
+        do {
+            let result = try context.fetch(request)
+            items = result
+        } catch {
+            print("\(error)")
         }
     }
     
@@ -66,10 +84,14 @@ class BucketListViewController: UITableViewController, AddItemTableViewControlle
     
     func itemSaved(by controller: AddItemTableViewController, with text: String, at indexPath: NSIndexPath?) {
         if let ip = indexPath {
-            items[ip.row] = text
+            let item = items[ip.row]
+            item.text = text
         } else {
-            items.append(text)
+            let item = BucketListItem(context: context)
+            item.text = text
+            items.append(item)
         }
+        saveContext()
         tableView.reloadData()
         dismiss(animated: true, completion: nil)
     }
