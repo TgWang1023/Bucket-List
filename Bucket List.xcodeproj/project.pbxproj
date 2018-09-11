@@ -8,20 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		B45B39FC214709B40008FA01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45B39FB214709B40008FA01 /* AppDelegate.swift */; };
-		B45B39FE214709B40008FA01 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45B39FD214709B40008FA01 /* ViewController.swift */; };
 		B45B3A01214709B40008FA01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B45B39FF214709B40008FA01 /* Main.storyboard */; };
 		B45B3A03214709B60008FA01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B45B3A02214709B60008FA01 /* Assets.xcassets */; };
 		B45B3A06214709B60008FA01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B45B3A04214709B60008FA01 /* LaunchScreen.storyboard */; };
+		B45B3A10214728B00008FA01 /* BucketListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45B3A0F214728B00008FA01 /* BucketListViewController.swift */; };
+		B45B3A14214729770008FA01 /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45B3A13214729770008FA01 /* AddItemTableViewController.swift */; };
+		B45B3A1821472E030008FA01 /* AddItemTableViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45B3A1721472E030008FA01 /* AddItemTableViewControllerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B45B39F8214709B40008FA01 /* Bucket List.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bucket List.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B45B39FB214709B40008FA01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B45B39FD214709B40008FA01 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B45B3A00214709B40008FA01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B45B3A02214709B60008FA01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B45B3A05214709B60008FA01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B45B3A07214709B60008FA01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B45B3A0F214728B00008FA01 /* BucketListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BucketListViewController.swift; sourceTree = "<group>"; };
+		B45B3A13214729770008FA01 /* AddItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewController.swift; sourceTree = "<group>"; };
+		B45B3A1721472E030008FA01 /* AddItemTableViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewControllerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,9 +59,11 @@
 			isa = PBXGroup;
 			children = (
 				B45B39FB214709B40008FA01 /* AppDelegate.swift */,
-				B45B39FD214709B40008FA01 /* ViewController.swift */,
+				B45B3A13214729770008FA01 /* AddItemTableViewController.swift */,
+				B45B3A1721472E030008FA01 /* AddItemTableViewControllerDelegate.swift */,
 				B45B39FF214709B40008FA01 /* Main.storyboard */,
 				B45B3A02214709B60008FA01 /* Assets.xcassets */,
+				B45B3A0F214728B00008FA01 /* BucketListViewController.swift */,
 				B45B3A04214709B60008FA01 /* LaunchScreen.storyboard */,
 				B45B3A07214709B60008FA01 /* Info.plist */,
 			);
@@ -135,8 +141,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B45B39FE214709B40008FA01 /* ViewController.swift in Sources */,
+				B45B3A10214728B00008FA01 /* BucketListViewController.swift in Sources */,
 				B45B39FC214709B40008FA01 /* AppDelegate.swift in Sources */,
+				B45B3A1821472E030008FA01 /* AddItemTableViewControllerDelegate.swift in Sources */,
+				B45B3A14214729770008FA01 /* AddItemTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
