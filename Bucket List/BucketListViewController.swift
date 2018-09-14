@@ -12,6 +12,9 @@ import CoreData
 class BucketListViewController: UITableViewController, AddItemTableViewControllerDelegate {
     var items: [BucketListItem] = []
     
+    var tasks: [NSDictionary] = []
+    var objectives: [String] = []
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let saveContext = (UIApplication.shared.delegate as! AppDelegate).saveContext
     
@@ -20,23 +23,37 @@ class BucketListViewController: UITableViewController, AddItemTableViewControlle
     }
     
     override func viewDidLoad() {
+        TaskModel.getAllTasks() {
+            data, response, error in
+            do {
+                if let tsk = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
+                    self.tasks = tsk["data"] as! [NSDictionary]
+                    for task in self.tasks {
+                        self.objectives.append(task["objective"] as! String)
+                    }
+                    print(self.objectives)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+            } catch {
+                print("Something went wrong")
+            }
+        }
         super.viewDidLoad()
-        fetchAllItems()
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return tasks.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListItemCell", for: indexPath)
-        cell.textLabel?.text = items[indexPath.row].text!
+        cell.textLabel?.text = objectives[indexPath.row]
         return cell
     }
     
