@@ -95,12 +95,12 @@
                     <navigationItem key="navigationItem" id="l9R-9t-Lg2">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="3mk-G5-pFA">
                             <connections>
-                                <action selector="cancelButtonPressed:" destination="QkX-GS-RSo" id="5Oj-xW-WhX"/>
+                                <action selector="cancelButtonPressed:" destination="QkX-GS-RSo" id="Ns7-Kg-8Qq"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="AMH-o2-lcl">
                             <connections>
-                                <action selector="saveButtonPressed:" destination="QkX-GS-RSo" id="uBd-u1-E28"/>
+                                <action selector="saveButtonPressed:" destination="QkX-GS-RSo" id="Agl-e3-di8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

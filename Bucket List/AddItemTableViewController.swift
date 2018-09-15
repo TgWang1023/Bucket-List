@@ -17,12 +17,11 @@ class AddItemTableViewController: UITableViewController {
     @IBOutlet weak var itemTextField: UITextField!
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
-        delegate?.cancelButtonPressed(by: self)
+        delegate?.addItemViewController(self, didPressCancelButton: sender)
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        let text = itemTextField.text!
-        delegate?.itemSaved(by: self, with: text, at: indexPath)
+        delegate?.addItemViewController(self, didFinishAddingItem: itemTextField.text!)
     }
     
     override func viewDidLoad() {

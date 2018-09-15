@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import UIKit
 
 protocol AddItemTableViewControllerDelegate: class {
-    func itemSaved(by controller: AddItemTableViewController, with text: String, at indexPath: NSIndexPath?)
-    func cancelButtonPressed(by controller: AddItemTableViewController)
+    
+    func addItemViewController(_ controller: AddItemTableViewController, didFinishAddingItem item: String)
+    func addItemViewController(_ controller: AddItemTableViewController, didPressCancelButton button: UIBarButtonItem) 
 }
