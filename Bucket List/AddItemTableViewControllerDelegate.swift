@@ -11,6 +11,6 @@ import UIKit
 
 protocol AddItemTableViewControllerDelegate: class {
     
-    func addItemViewController(_ controller: AddItemTableViewController, didFinishAddingItem item: String)
+    func addItemViewController(_ controller: AddItemTableViewController, didFinishAddingItem item: String, at indexPath: NSIndexPath?)
     func addItemViewController(_ controller: AddItemTableViewController, didPressCancelButton button: UIBarButtonItem) 
 }

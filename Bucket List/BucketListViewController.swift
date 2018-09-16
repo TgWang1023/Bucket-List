@@ -26,7 +26,6 @@ class BucketListViewController: UITableViewController {
                     for task in self.tasks {
                         self.objectives.append(task["objective"] as! String)
                     }
-                    print(self.objectives)
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
@@ -57,55 +56,69 @@ class BucketListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        tasks.remove(at: indexPath.row)
-        objectives.remove(at: indexPath.row)
-        tableView.reloadData()
+        TaskModel.deleteTask(selectedTaskId: tasks[indexPath.row]["_id"] as! String) {
+            data, response, error in
+            do {
+                self.tasks.remove(at: indexPath.row)
+                self.objectives.remove(at: indexPath.row)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            } 
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let navigationController = segue.destination as! UINavigationController
         let addItemTableViewController = navigationController.topViewController as! AddItemTableViewController
         addItemTableViewController.delegate = self
+        if sender is IndexPath {
+            let indexPath = sender as! NSIndexPath
+            let objective = objectives[indexPath.row]
+            addItemTableViewController.item = objective
+            addItemTableViewController.indexPath = indexPath
+        }
         
     }
-    
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if sender is UIBarButtonItem {
-//            let navigationController =  segue.destination as! UINavigationController
-//            let addItemTableController = navigationController.topViewController as! AddItemTableViewController
-//        }
-//        else if sender is IndexPath {
-//            let navigationController =  segue.destination as! UINavigationController
-//            let addItemTableController = navigationController.topViewController as! AddItemTableViewController
-//            addItemTableController.delegate = self
-//            let indexPath = sender as! NSIndexPath
-//            let item = items[indexPath.row]
-//            addItemTableController.item = item.text!
-//            addItemTableController.indexPath = indexPath
-//        }
-//    }
 
 }
 extension BucketListViewController: AddItemTableViewControllerDelegate {
     
-    func addItemViewController(_ controller: AddItemTableViewController, didFinishAddingItem item: String) {
-        TaskModel.addTaskWithObjective(objective: item) {
-            data, response, error in
-            do {
-                if let added_task = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary {
-                    print(added_task)
-                    let temp = added_task["data"] as! NSArray
-                    let elem = temp[0] as! NSDictionary
-                    self.tasks.append(elem)
-                    self.objectives.append(elem["objective"] as! String)
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
+    func addItemViewController(_ controller: AddItemTableViewController, didFinishAddingItem item: String, at indexPath: NSIndexPath?) {
+        if let ip = indexPath {
+            TaskModel.editTaskWithObjective(objective: item, selectedTaskId: tasks[ip.row]["_id"] as! String) {
+                data, response, error in
+                do {
+                    if let edited_task = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary {
+                        let temp = edited_task["data"] as! NSDictionary
+                        self.tasks[ip.row] = temp
+                        self.objectives[ip.row] = temp["objective"] as! String
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
                     }
+                } catch {
+                    print("Something went wrong")
+                    print(error)
                 }
-            } catch {
-                print("Something went wrong")
-                print(error)
+            }
+        } else {
+            TaskModel.addTaskWithObjective(objective: item) {
+                data, response, error in
+                do {
+                    if let added_task = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary {
+                        let temp = added_task["data"] as! NSArray
+                        let elem = temp[0] as! NSDictionary
+                        self.tasks.append(elem)
+                        self.objectives.append(elem["objective"] as! String)
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
+                } catch {
+                    print("Something went wrong")
+                    print(error)
+                }
             }
         }
         dismiss(animated: true, completion: nil)

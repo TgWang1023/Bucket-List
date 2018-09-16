@@ -21,7 +21,7 @@ class AddItemTableViewController: UITableViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        delegate?.addItemViewController(self, didFinishAddingItem: itemTextField.text!)
+        delegate?.addItemViewController(self, didFinishAddingItem: itemTextField.text!, at: indexPath)
     }
     
     override func viewDidLoad() {
